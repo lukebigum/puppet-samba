@@ -12,6 +12,7 @@ class samba::server($bind_interfaces_only = 'yes',
                     $map_to_guest = '',
                     $max_log_size = '',
                     $netbios_name = '',
+                    $nmbd_service_name = undef,
                     $obey_pam_restrictions = '',
                     $os_level = '',
                     $package_name = 'samba',
@@ -27,6 +28,7 @@ class samba::server($bind_interfaces_only = 'yes',
                     $server_role = '',
                     $server_string = '',
                     $shares = {},
+                    $smbd_service_name = undef,
                     $socket_options = '',
                     $syslog = '',
                     $unix_password_sync = '',
@@ -38,8 +40,12 @@ class samba::server($bind_interfaces_only = 'yes',
   class { '::samba::server::install':
     package_name => $package_name,
   }
-  include samba::server::config
-  include samba::server::service
+  include ::samba::server::config
+
+  class { '::samba::server::service':
+    nmbd_service_name    => $nmbd_service_name,
+    smbd_service_name    => $smbd_service_name,
+  }
 
   $incl    = '/etc/samba/smb.conf'
   $context = '/files/etc/samba/smb.conf'
