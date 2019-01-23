@@ -27,6 +27,8 @@ class samba::server($bind_interfaces_only = 'yes',
                     $security = '',
                     $server_role = '',
                     $server_string = '',
+                    $service_enable = true,
+                    $service_ensure = 'running',
                     $shares = {},
                     $smbd_service_name = undef,
                     $socket_options = '',
@@ -43,8 +45,10 @@ class samba::server($bind_interfaces_only = 'yes',
   include ::samba::server::config
 
   class { '::samba::server::service':
-    nmbd_service_name    => $nmbd_service_name,
-    smbd_service_name    => $smbd_service_name,
+    enable            => $service_enable,
+    ensure            => $service_ensure,
+    nmbd_service_name => $nmbd_service_name,
+    smbd_service_name => $smbd_service_name,
   }
 
   $incl    = '/etc/samba/smb.conf'
