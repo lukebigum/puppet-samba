@@ -6,6 +6,7 @@ define samba::server::share($ensure = present,
                             $comment = '',
                             $copy = '',
                             $create_mask = '',
+                            $csc_policy = '',
                             $directory_mask = '',
                             $force_create_mask = '',
                             $force_create_mode = '',
@@ -86,6 +87,10 @@ define samba::server::share($ensure = present,
       $create_mask ? {
         ''      => "rm  \"${target}/create mask\"",
         default => "set \"${target}/create mask\" '${create_mask}'",
+      },
+      $csc_policy ? {
+        ''      => "rm  \"${target}/csc policy\"",
+        default => "set \"${target}/csc policy\" '${csc_policy}'",
       },
       $directory_mask ? {
         ''      => "rm  \"${target}/directory mask\"",
