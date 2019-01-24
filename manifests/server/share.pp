@@ -8,6 +8,7 @@ define samba::server::share($ensure = present,
                             $create_mask = '',
                             $directory_mask = '',
                             $force_create_mask = '',
+                            $force_create_mode = '',
                             $force_directory_mode = '',
                             $force_group = '',
                             $force_user = '',
@@ -93,6 +94,10 @@ define samba::server::share($ensure = present,
       $force_create_mask ? {
         ''      => "rm  \"${target}/force create mask\"",
         default => "set \"${target}/force create mask\" '${force_create_mask}'",
+      },
+      $force_create_mode ? {
+        ''      => "rm  \"${target}/force create mode\"",
+        default => "set \"${target}/force create mode\" '${force_create_mode}'",
       },
       $force_directory_mode ? {
         ''      => "rm  \"${target}/force directory mode\"",
